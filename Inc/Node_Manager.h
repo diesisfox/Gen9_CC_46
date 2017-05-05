@@ -8,7 +8,7 @@
 #ifndef NODE_MANAGER_H_
 #define NODE_MANAGER_H_
 
-#include "stm32l4xx_hal.h"
+#include "stm32f4xx_hal.h"
 
 void Node_Manager(void);
 void resetNode(void * nodeID);

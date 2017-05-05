@@ -37,7 +37,7 @@
 #define NODECONF_H_
 
 #include "cmsis_os.h"
-#include "stm32l4xx_hal.h"
+#include "stm32f4xx_hal.h"
 
 #define WD_Interval			16			// Watdog timer refresh interval (soft ms) | MUST BE LESS THAN 26!!!
 #define RT_Interval			10			// Refresh interval for driver controls

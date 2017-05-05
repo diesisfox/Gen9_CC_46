@@ -88,9 +88,9 @@ osMutexId controlVarsMtxHandle;
 #endif
 
 //osMutexId nodeEntryMtxHandle[16];		// Mutex for every node table entry
-QueueHandle_t * nodeEntryMtxHandle = (QueueHandle_t[MAX_NODE_NUM]){};
-osTimerId * nodeTmrHandle = (osTimerId[MAX_NODE_NUM]){};			// Timer for each node's timeout timer
-nodeEntry * nodeTable = (nodeEntry[MAX_NODE_NUM]){};
+QueueHandle_t * nodeEntryMtxHandle = (QueueHandle_t[MAX_NODE_NUM]){0};
+osTimerId * nodeTmrHandle = (osTimerId[MAX_NODE_NUM]){0};			// Timer for each node's timeout timer
+nodeEntry * nodeTable = (nodeEntry[MAX_NODE_NUM]){0};
 controlVars userInput;
 /* USER CODE END PV */
 
@@ -199,7 +199,7 @@ int main(void)
     for(uint8_t TmrID = 0; TmrID < MAX_NODE_NUM; TmrID++){
   	  osTimerDef(TmrID, TmrHBTimeout);
   	  // TODO: Consider passing the nodeTmrHandle+Offset or NULL
-  	  nodeTmrHandle[TmrID] = osTimerCreate(osTimer(TmrID), osTimerOnce, TmrID);	// TmrID here is stored directly as a variable
+  	  nodeTmrHandle[TmrID] = osTimerCreate(osTimer(TmrID), osTimerOnce, (void*)TmrID);	// TmrID here is stored directly as a variable
   	  //DISCUSS changePeriod starts the damn timers...
   	  xTimerChangePeriod(nodeTmrHandle[TmrID], Node_HB_Interval, portMAX_DELAY);
   	  xTimerStop(nodeTmrHandle[TmrID], portMAX_DELAY);
@@ -220,10 +220,6 @@ int main(void)
   /* definition and creation of Can_Processor */
   osThreadDef(Can_Processor, doProcessCan, osPriorityNormal, 0, 512);
   Can_ProcessorHandle = osThreadCreate(osThread(Can_Processor), NULL);
-
-  /* definition and creation of RT_Handler */
-  osThreadDef(RT_Handler, doRealTime, osPriorityHigh, 0, 512);
-  RT_HandlerHandle = osThreadCreate(osThread(RT_Handler), NULL);
 
   /* definition and creation of Node_Manager */
   osThreadDef(Node_Manager, doNodeManager, osPriorityBelowNormal, 0, 512);
