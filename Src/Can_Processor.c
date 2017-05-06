@@ -14,7 +14,7 @@ extern const uint8_t selfNodeID;
 extern osMessageQId BadNodesQHandle;
 extern const uint32_t * const acceptedFirmware;
 
-inline void Can_Processor(){
+void Can_Processor(){
 	uint8_t nodeConnectionWait[MAX_NODE_NUM] = {0};
 	static Can_frame_t newFrame;
 	for(;;){

@@ -61,7 +61,7 @@ uint32_t selfStatusWord = 0x0;
 // SW_Sentinel will fail the CC firmware check and result in node addition failure!
 static const uint32_t firmwareString = 0x00000100;			// Firmware Version string
 static const uint8_t selfNodeID = 1;					// The nodeID of this node
-uint32_t selfStatusWord;
+extern uint32_t selfStatusWord;
 #define NODE_CONFIGURED
 #endif
 

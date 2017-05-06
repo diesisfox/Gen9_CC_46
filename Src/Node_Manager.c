@@ -14,7 +14,7 @@
 extern osMessageQId BadNodesQHandle;
 extern nodeEntry * nodeTable;
 
-inline void Node_Manager(){
+void Node_Manager(){
 	uint8_t badNodeID = 0;
 	xQueueReceive(BadNodesQHandle, &badNodeID, portMAX_DELAY);	// Wait for queue
 	UBaseType_t currentPriority = uxTaskPriorityGet(NULL);		// Get priority of current Task

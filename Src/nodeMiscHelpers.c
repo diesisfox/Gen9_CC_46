@@ -82,7 +82,7 @@ void executeCommand(uint8_t cmd){
 /* CHECKED
  * Thread-safe node state accessor
  */
-nodeState inline getSelfState(){
+nodeState getSelfState(){
 	xSemaphoreTake(swMtxHandle, portMAX_DELAY);
 	nodeState ret = (nodeState)(selfStatusWord & 0x07);
 	xSemaphoreGive(swMtxHandle);
@@ -92,7 +92,7 @@ nodeState inline getSelfState(){
 /* CHECKED
  * Thread-safe node state mutator
  */
-inline void setSelfState(nodeState newState){
+void setSelfState(nodeState newState){
 	xSemaphoreTake(swMtxHandle, portMAX_DELAY);
 	selfStatusWord &= 0xfffffff8;	// Clear the current status word
 	selfStatusWord |= newState;
@@ -104,7 +104,7 @@ inline void setSelfState(nodeState newState){
  * Assembles node SHUTDOWN statusword CAN frame
  * Flushes CanTx queue via broadcast on bxCAN
  */
-inline void soft_shutdown(void(*usr_clbk)()){
+void soft_shutdown(void(*usr_clbk)()){
 	// Don't care about locking the statusWord here since we are in Critical Area
 	setState(SHUTDOWN);
 
@@ -123,7 +123,7 @@ inline void soft_shutdown(void(*usr_clbk)()){
 }
 
 // Set up the NodeTable initial states
-inline void setupNodeTable(){
+void setupNodeTable(){
 	for(uint8_t i = 0; i < MAX_NODE_NUM; i++){
 		nodeTable[i].nodeStatusWord = SW_Sentinel;			// Initialize status word to SENTINEL
 		nodeTable[i].nodeFirmwareVersion = SW_Sentinel;		// Initialize firm ware version to SENTINEL
@@ -155,11 +155,11 @@ inline void setupNodeTable(){
 	#endif
 }
 
-inline void bytesToReg(uint8_t * byte, uint32_t * reg){
+void bytesToReg(uint8_t * byte, uint32_t * reg){
 	*reg =  ((byte[3] | (byte[2]<<8) | (byte[1] << 16) | (byte[0] << 24))) & 0xFFFFFFFF;
 }
 
-inline void regToBytes(uint32_t * reg, uint8_t * bytes){
+void regToBytes(uint32_t * reg, uint8_t * bytes){
 	bytes[3] = (*reg) & 0xFF;
 	bytes[2] = ((*reg) >> 8) & 0xFF;
 	bytes[1] = ((*reg) >> 16) & 0xFF;

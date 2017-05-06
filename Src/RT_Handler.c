@@ -40,7 +40,7 @@ for(;;){
 			tempFrame.dlc = Req_DLC;
 			tempFrame.id = mitsubaREQ;
 			tempFrame.Data[0] = Req_Frm0 | Req_Frm1 | Req_Frm2;
-			mcpCan_sendFrame(&tempFrame);	// Send to motorCAN
+//			mcpCan_sendFrame(&tempFrame);	// Send to motorCAN
 		}
 
 		// Take the CONTROL_VARS semaphore; there should be no competition
@@ -52,25 +52,25 @@ for(;;){
 		newFrame.id = swPos;
 		newFrame.dlc = swPos_DLC;
 		bxCan_sendFrame(&newFrame);		// Send to main CAN for logging
-		mcpCan_sendFrame(&newFrame);	// Send to motor CAN for control
+//		mcpCan_sendFrame(&newFrame);	// Send to motor CAN for control
 
 		// Send brake position
 		newFrame.id = brakePos;
 		newFrame.dlc = brakePos_DLC;
 		bxCan_sendFrame(&newFrame);
-		mcpCan_sendFrame(&newFrame);
+//		mcpCan_sendFrame(&newFrame);
 
 		// Send accelerator position
 		newFrame.id = accelPos;
 		newFrame.dlc = accelPos_DLC;
 		bxCan_sendFrame(&newFrame);
-		mcpCan_sendFrame(&newFrame);
+//		mcpCan_sendFrame(&newFrame);
 
 		// Send regen position
 		newFrame.id = regenPos;
 		newFrame.dlc = regenPos_DLC;
 		bxCan_sendFrame(&newFrame);
-		mcpCan_sendFrame(&newFrame);
+//		mcpCan_sendFrame(&newFrame);
 
 		// Wait for the incoming diagnostic data; but timeout to ensure real time operation
 		if(!xQueueReceive(motCanRxQHandle, &tempFrame, MC_Refresh_Interval)){
@@ -118,7 +118,7 @@ for(;;){
 		} else {
 			newFrame.Data[0] = NODE_RESET;
 		}
-		mcpCan_sendFrame(&newFrame);
+//		mcpCan_sendFrame(&newFrame);
 		continue;
 	}
 	else if(nodeTable[mc_nodeID].nodeConnectionState == CONNECTING){
@@ -139,7 +139,7 @@ for(;;){
 				// Node is in error condition, reset the controller
 				nodeTable[mc_nodeID].nodeConnectionState = DISCONNECTED;
 				newFrame.Data[0] = NODE_RESET;
-				mcpCan_sendFrame(&newFrame);
+//				mcpCan_sendFrame(&newFrame);
 			}
 		}
 		else {
