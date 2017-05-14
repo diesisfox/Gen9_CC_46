@@ -153,6 +153,11 @@ void setupNodeTable(){
 		nodeTable[radio_nodeID].nodeConnectionState = DISCONNECTED;
 		nodeTable[radio_nodeID].nodeFirmwareVersion = acceptedFirmware[radio_nodeID];
 	#endif
+        
+    #ifdef radio_nodeID
+		nodeTable[dcb_nodeID].nodeConnectionState = DISCONNECTED;
+		nodeTable[dcb_nodeID].nodeFirmwareVersion = acceptedFirmware[radio_nodeID];
+	#endif
 }
 
 void bytesToReg(uint8_t * byte, uint32_t * reg){
